@@ -4,18 +4,17 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PecaModel extends Model
+class LoginModel extends Model
 {
-    protected $table            = 'peca';
-    protected $primaryKey       = 'idPeca';
+    protected $table            = 'usuario';
+    protected $primaryKey       = 'idUsuario';
     protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
+    protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'valorPeca',
-        'descricao',
-        'nomePeca',
+        'username', 
+        'senha'
     ];
 
     // Dates

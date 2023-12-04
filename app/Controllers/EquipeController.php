@@ -17,14 +17,14 @@ class EquipeController extends BaseController
     public function index()
     {
         return view("equipeView", [
-            'equipes' => $this->EquipeModel->getEquipe(null),
-            'titles' => $this->EquipeModel->findAll()
+            'equipes' => $this->EquipeModel->findAll(),
+            'funcionarios' => $this->FuncionarioModel->findAll()
         ]);
     }
 
     public function delete($idequipe)
     {
-        if ($this->EquipeModel->deleteEquipe($idequipe)) {
+        if ($this->EquipeModel->delete($idequipe)) {
             return view('message', [
                 'message' => 'Usuário deletado com sucesso!'
             ]);
@@ -38,8 +38,35 @@ class EquipeController extends BaseController
     public function edit($idequipe)
     {
         return view('formEquipe', [
-            'equipe' => $this->EquipeModel->getEquipe($idequipe),
-            'funcionarios' => $this->FuncionarioModel->findAll()
+            'equipe' => $this->EquipeModel->find($idequipe),
         ]);
+    }
+
+    public function create()
+    {
+        return view('formEquipe');
+    }
+
+    public function store()
+    {
+        $postData = $this->request->getPost();
+
+        if (empty($postData['nomeEquipe'])) {
+            return view('message', [
+                'message' => 'Por favor, preencha todos os campos obrigatórios.',
+                'url' => '/equipes'
+            ]);
+        }
+        if ($this->EquipeModel->save($postData)) {
+            return view('message', [
+                'message' => 'Equipe salvo com sucesso!',
+                'url' => '/equipes'
+            ]);
+        } else {
+            return view('message', [
+                'message' => 'Erro ao salvar equipe!',
+                'url' => '/equipes'
+            ]);
+        }
     }
 }

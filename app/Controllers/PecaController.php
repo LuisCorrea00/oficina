@@ -19,9 +19,9 @@ class PecaController extends BaseController
         ]);
     }
 
-    public function delete($idpeca)
+    public function delete($idPeca)
     {
-        if ($this->PecaModel->delete($idpeca)) {
+        if ($this->PecaModel->delete($idPeca)) {
             return view('message', [
                 'message' => 'Usuário deletado com sucesso!'
             ]);
@@ -32,10 +32,10 @@ class PecaController extends BaseController
         }
     }
 
-    public function edit($idpeca)
+    public function edit($idPeca)
     {
         return view('formPeca', [
-            'peca' => $this->PecaModel->find($idpeca)
+            'peca' => $this->PecaModel->find($idPeca)
         ]);
     }
 
@@ -46,7 +46,13 @@ class PecaController extends BaseController
 
     public function store()
     {
-        if ($this->PecaModel->save($this->request->getPost())) {
+        $postData = $this->request->getPost();
+        if (empty($postData['nomePeca']) || empty($postData['valorPeca']) || empty($postData['descricao'])) {
+            return view('message', [
+                'message' => 'Por favor, preencha todos os campos obrigatórios.'
+            ]);
+        }
+        if ($this->PecaModel->save($postData)) {
             return view('message', [
                 'message' => 'Usuário salvo com sucesso!'
             ]);

@@ -7,14 +7,13 @@ use CodeIgniter\Model;
 class ClienteModel extends Model
 {
     protected $table            = 'cliente';
-    protected $primaryKey       = 'idcliente';
+    protected $primaryKey       = 'idCliente';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'nome',
-        'sobrenome',
+        'nomeCliente',
         'telefone',
         'cpf',
         'dataNascimento',

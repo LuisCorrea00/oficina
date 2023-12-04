@@ -46,7 +46,13 @@ class ServicoController extends BaseController
 
     public function store()
     {
-        if ($this->ServicoModel->save($this->request->getPost())) {
+        $postData = $this->request->getPost();
+        if (empty($postData['nomeServico']) || empty($postData['valorServico']) || empty($postData['descricao'])) {
+            return view("message", [
+                'message' => 'Por favor, preencha todos os campos obrigatórios.'
+            ]);
+        }
+        if ($this->ServicoModel->save($postData)) {
             return view("message", [
                 'message' => 'Serviço salvo com sucesso!'
             ]);

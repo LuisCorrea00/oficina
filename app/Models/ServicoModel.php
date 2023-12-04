@@ -7,15 +7,15 @@ use CodeIgniter\Model;
 class ServicoModel extends Model
 {
     protected $table            = 'servico';
-    protected $primaryKey       = 'idservico';
+    protected $primaryKey       = 'idServico';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'nome',
+        'nomeServico',
+        'valorServico',
         'descricao',
-        'valor'
     ];
 
     // Dates

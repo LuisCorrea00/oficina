@@ -7,17 +7,17 @@ use CodeIgniter\Model;
 class FuncionarioModel extends Model
 {
     protected $table            = 'funcionario';
-    protected $primaryKey       = 'idfuncionario';
+    protected $primaryKey       = 'idFuncionario';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'nome',
-        'sobrenome',
+        'nomeFuncionario',
         'dataNascimento',
         'telefone',
         'cpf',
+        'idEquipe'
     ];
 
     // Dates

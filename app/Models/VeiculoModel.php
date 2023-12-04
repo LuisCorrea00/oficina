@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class VeiculoModel extends Model
 {
     protected $table = 'veiculo';
-    protected $primaryKey = 'idveiculo';
+    protected $primaryKey = 'idVeiculo';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
@@ -16,7 +16,8 @@ class VeiculoModel extends Model
         'placa',
         'modelo',
         'ano',
-        'cliente_idcliente'
+        'cor',
+        'idCliente'
     ];
 
     // Dates
