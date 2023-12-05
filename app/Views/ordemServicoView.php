@@ -18,7 +18,7 @@
             <h1>Ordens de Serviço</h1>
             <?php echo anchor(base_url('ordemServico/create'), 'Nova Ordem de Serviço', ['class' => 'btn btn-success ms-3']); ?>
         </div>
-        <h4 class="mb-5">Em aberto</h4>
+        <h4 class="mb-5">Abertas</h4>
         <div class="d-flex justify-content-center flex-wrap">
             <?php foreach ($ordensTodo as $ordemTodo): ?>
                 <div class="card d-inline-block mb-3 me-3" style="width: 25vw;">

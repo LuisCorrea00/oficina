@@ -16,7 +16,12 @@
     <?php include(APPPATH . 'Views/templates/header.php'); ?>
     <div class="container mt-5">
         <?php echo form_open('equipes/store') ?>
-
+        <span class="display-6 ">
+            <?php echo isset($equipe) ? 'Editar Equipe' : 'Cadastro de Equipes' ?>
+        </span>
+        <span class="text-danger">
+            <?php echo session()->getFlashdata('erros') ?? '' ?>
+        </span>
         <div class="form-group pt-3">
             <label for="nomeEquipe">Nome da equipe:</label>
             <input type="text" name="nomeEquipe"

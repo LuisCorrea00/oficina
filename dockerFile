@@ -1,17 +1,9 @@
-# Use a imagem base desejada
-FROM <imagem_base>
+FROM php:7.4-apache
 
-# Defina o diretório de trabalho dentro do contêiner
-WORKDIR /app
+RUN apt-get update && apt-get install -y
+    
+RUN a2enmod rewrite
 
-# Copie os arquivos do host para o contêiner
-COPY . .
+COPY app/ /var/www/html/
 
-# Execute os comandos de instalação e configuração necessários
-RUN <comandos_de_instalação>
-
-# Exponha a porta necessária para o aplicativo
-EXPOSE <porta>
-
-# Defina o comando de inicialização do aplicativo
-CMD [ "comando_de_inicialização" ]
+EXPOSE 80

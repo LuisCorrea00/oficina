@@ -14,7 +14,12 @@
     <?php include(APPPATH . 'Views/templates/header.php'); ?>
     <div class="container mt-5">
         <?php echo form_open('servicos/store') ?>
-
+        <span class="display-6 ">
+            <?php echo isset($servico) ? 'Editar Serviço' : 'Cadastro de Serviços' ?>
+        </span>
+        <span class="text-danger">
+            <?php echo session()->getFlashdata('erros') ?? '' ?>
+        </span>
         <div class="form-group pt-3">
             <label for="nomeServico">Nome</label>
             <input type="text" name="nomeServico"

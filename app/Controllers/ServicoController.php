@@ -23,12 +23,11 @@ class ServicoController extends BaseController
     {
         if ($this->ServicoModel->delete($idservico)) {
             return view("message", [
-                'message' => 'Serviço deletado com sucesso!'
+                'message' => 'Serviço deletado com sucesso!',
+                'url' => '/servicos'
             ]);
         } else {
-            return view("message", [
-                'message' => 'Erro ao deletar serviço!'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao deletar serviço.');
         }
     }
 
@@ -48,18 +47,15 @@ class ServicoController extends BaseController
     {
         $postData = $this->request->getPost();
         if (empty($postData['nomeServico']) || empty($postData['valorServico']) || empty($postData['descricao'])) {
-            return view("message", [
-                'message' => 'Por favor, preencha todos os campos obrigatórios.'
-            ]);
+            return redirect()->back()->with('erros', 'Por favor, preencha todos os campos obrigatórios.');
         }
         if ($this->ServicoModel->save($postData)) {
             return view("message", [
-                'message' => 'Serviço salvo com sucesso!'
+                'message' => 'Serviço salvo com sucesso!',
+                'url' => '/servicos'
             ]);
         } else {
-            return view("message", [
-                'message' => 'Erro ao salvar serviço!'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao salvar serviço.');
         }
     }
 }

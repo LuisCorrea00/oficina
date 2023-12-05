@@ -14,7 +14,12 @@
     <?php include(APPPATH . 'Views/templates/header.php'); ?>
     <div class="container mt-4">
         <?php echo form_open('veiculos/store') ?>
-
+        <span class="display-6 ">
+            <?php echo isset($veiculo) ? 'Editar Veículo' : 'Cadastro de Veículos' ?>
+        </span>
+        <span class="text-danger">
+            <?php echo session()->getFlashdata('erros') ?? '' ?>
+        </span>
         <div class="form-group pt-3">
             <label for="placa">Placa</label>
             <input type="text" name="placa" value="<?php echo isset($veiculo['placa']) ? $veiculo['placa'] : '' ?>"

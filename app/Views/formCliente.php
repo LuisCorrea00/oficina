@@ -16,7 +16,12 @@
     <?php include(APPPATH . 'Views/templates/header.php'); ?>
     <div class="container mt-5">
         <?php echo form_open('clientes/store') ?>
-
+        <span class="display-6 ">
+            <?php echo isset($cliente) ? 'Editar Cliente' : 'Cadastro de Clientes' ?>
+        </span>
+        <span class="text-danger">
+            <?php echo session()->getFlashdata('erros') ?? '' ?>
+        </span>
         <div class="form-group pt-3">
             <label for="nomeCliente">Nome Completo</label>
             <input type="text" name="nomeCliente"

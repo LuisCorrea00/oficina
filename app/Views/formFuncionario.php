@@ -14,9 +14,14 @@
 
 <body>
     <?php include(APPPATH . 'Views/templates/header.php'); ?>
-    <div class="container mt-5">
+    <div class="container mt-4">
         <?php echo form_open('funcionarios/store') ?>
-
+        <span class="display-6 ">
+            <?php echo isset($funcionario) ? 'Editar Funcionário' : 'Cadastro de Funcionários' ?>
+        </span>
+        <span class="text-danger">
+            <?php echo session()->getFlashdata('erros') ?? '' ?>
+        </span>
         <div class="form-group pt-3">
             <label for="nome">Nome Completo</label>
             <input type="text" name="nomeFuncionario"
@@ -47,6 +52,9 @@
 
         <div class="form-group pt-3">
             <label for="equipe">Equipe</label>
+            <a class="ms-2" href="<?php echo base_url('equipes/create/'); ?>">
+                <i class="bi bi-plus-circle" style="font-size: 1rem;color:black;"></i>
+            </a>
             <select name="idEquipe" class="form-control">
                 <option value="" selected></option>
                 <?php foreach ($equipes as $equipe): ?>

@@ -26,12 +26,10 @@ class EquipeController extends BaseController
     {
         if ($this->EquipeModel->delete($idequipe)) {
             return view('message', [
-                'message' => 'Usuário deletado com sucesso!'
+                'message' => 'Equipe deletado com sucesso!'
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao deletar usuário!'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao salvar equipe.');
         }
     }
 
@@ -52,10 +50,7 @@ class EquipeController extends BaseController
         $postData = $this->request->getPost();
 
         if (empty($postData['nomeEquipe'])) {
-            return view('message', [
-                'message' => 'Por favor, preencha todos os campos obrigatórios.',
-                'url' => '/equipes'
-            ]);
+            return redirect()->back()->with('erros', 'Por favor, preencha todos os campos obrigatórios.');
         }
         if ($this->EquipeModel->save($postData)) {
             return view('message', [
@@ -63,10 +58,8 @@ class EquipeController extends BaseController
                 'url' => '/equipes'
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao salvar equipe!',
-                'url' => '/equipes'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao salvar equipe.');
+
         }
     }
 }

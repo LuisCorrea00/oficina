@@ -33,10 +33,7 @@ class OrdemServicoController extends BaseController
     {
         $postData = $this->request->getPost();
         if (empty($postData['idCliente']) || empty($postData['idEquipe']) || empty($postData['placa']) || empty($postData['descricaoProblema'])) {
-            return view('message', [
-                'message' => 'Por favor, preencha todos os campos obrigatórios.',
-                'url' => '/ordemServico'
-            ]);
+            return redirect()->back()->with('erros', 'Por favor, preencha todos os campos obrigatórios.');
         }
 
         if ($this->OrdemServicoModel->insertOS($postData)) {
@@ -45,10 +42,7 @@ class OrdemServicoController extends BaseController
                 'url' => '/ordemServico'
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao salvar ordem de serviço!',
-                'url' => '/ordemServico'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao salvar ordem de serviço.');
         }
     }
 
@@ -56,14 +50,11 @@ class OrdemServicoController extends BaseController
     {
         if ($this->OrdemServicoModel->delete($idOrdem_servico)) {
             return view('message', [
-                'message' => 'Usuário deletado com sucesso!',
+                'message' => 'Ordem de serviço deletada com sucesso!',
                 'url' => '/ordemServico'
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao deletar usuário!',
-                'url' => '/ordemServico'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao deletar ordem de serviço.');
         }
     }
 
@@ -88,6 +79,18 @@ class OrdemServicoController extends BaseController
     public function concluirStore()
     {
         $form = $this->request->getPost();
+        $validate = $this->validate(
+            [
+                'idPeca[]' => 'required',
+                'idServico[]' => 'required',
+                'quantidadePeca[]' => 'required',
+                'quantidadeServico[]' => 'required',
+            ],
+        );
+
+        if (!$validate) {
+            return redirect()->back()->with('erros', 'Selecione pelo menos um serviço, uma peça e suas respectivas quantidades.');
+        }
 
         if (isset($form['idPeca']) && is_array($form['idPeca'])) {
             foreach ($form['idPeca'] as $index => $peca) {
@@ -106,11 +109,8 @@ class OrdemServicoController extends BaseController
                 'message' => 'Ordem de serviço concluída com sucesso!',
                 'url' => '/ordemServico'
             ]);
-        } else {
-            return view('message', [
-                'message' => 'Erro ao concluir ordem de serviço!',
-                'url' => '/ordemServico'
-            ]);
         }
+
+        return redirect()->back()->with('erros', 'Erro ao concluir ordem de serviço.');
     }
 }

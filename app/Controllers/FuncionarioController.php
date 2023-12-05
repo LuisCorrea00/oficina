@@ -26,14 +26,11 @@ class FuncionarioController extends BaseController
     {
         if ($this->FuncionarioModel->delete($idfuncionario)) {
             return view('message', [
-                'message' => 'Usuário deletado com sucesso!',
+                'message' => 'Funcionário deletado com sucesso!',
                 'url' => '/funcionarios'
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao deletar usuário!',
-                'url' => '/funcionarios'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao deletar funcionário.');
         }
     }
 
@@ -57,22 +54,16 @@ class FuncionarioController extends BaseController
         $postData = $this->request->getPost();
 
         if (empty($postData['nomeFuncionario']) || empty($postData['cpf']) || empty($postData['telefone']) || empty($postData['dataNascimento']) || empty($postData['idEquipe'])) {
-            return view('message', [
-                'message' => 'Por favor, preencha todos os campos obrigatórios.',
-                'url' => '/funcionarios'
-            ]);
+            return redirect()->back()->with('erros', 'Por favor, preencha todos os campos obrigatórios.');
         }
 
         if ($this->FuncionarioModel->save($postData)) {
             return view('message', [
-                'message' => 'Usuário salvo com sucesso!',
+                'message' => 'Funcionário salvo com sucesso!',
                 'url' => '/funcionarios'
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao salvar usuário!',
-                'url' => '/funcionarios'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao salvar funcionário.');
         }
     }
 }

@@ -25,14 +25,11 @@ class ClienteController extends BaseController
     {
         if ($this->clienteModel->delete($idCliente)) {
             return view('message', [
-                'message' => 'Usuário deletado com sucesso!',
+                'message' => 'Cliente deletado com sucesso!',
                 'url' => '/clientes'
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao deletar usuário!',
-                'url' => '/clientes'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao deletar cliente.');
         }
     }
 
@@ -53,10 +50,7 @@ class ClienteController extends BaseController
         $postData = $this->request->getPost();
 
         if (empty($postData['nomeCliente']) || empty($postData['cpf']) || empty($postData['telefone']) || empty($postData['dataNascimento'])) {
-            return view('message', [
-                'message' => 'Por favor, preencha todos os campos obrigatórios.',
-                'url' => '/clientes'
-            ]);
+            return redirect()->back()->with('erros', 'Por favor, preencha todos os campos obrigatórios.');
         }
 
         if ($this->clienteModel->save($postData)) {
@@ -65,10 +59,7 @@ class ClienteController extends BaseController
                 'url' => '/clientes'
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao salvar cliente!',
-                'url' => '/clientes'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao salvar cliente.');
         }
     }
 
@@ -82,15 +73,14 @@ class ClienteController extends BaseController
 
     public function deleteVeiculo($idVeiculo)
     {
+        $veiculo = $this->VeiculoModel->find($idVeiculo);
         if ($this->VeiculoModel->delete($idVeiculo)) {
             return view('message', [
                 'message' => 'Veículo deletado com sucesso!',
-                'url' => '/clientes/' . $this->VeiculoModel->find($idVeiculo)['idCliente'] . '/veiculos',
+                'url' => '/clientes/' . $veiculo['idCliente'] . '/veiculos',
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao deletar veículo!'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao deletar veículo.');
         }
     }
 
@@ -114,10 +104,7 @@ class ClienteController extends BaseController
         $postData = $this->request->getPost();
 
         if (empty($postData['placa']) || empty($postData['modelo']) || empty($postData['ano']) || empty($postData['cor'])) {
-            return view('message', [
-                'message' => 'Por favor, preencha todos os campos obrigatórios.',
-                'url' => '/clientes/' . $postData['idCliente'] . '/veiculos',
-            ]);
+            return redirect()->back()->with('erros', 'Por favor, preencha todos os campos obrigatórios.');
         }
 
         if ($this->VeiculoModel->save($postData)) {
@@ -126,10 +113,7 @@ class ClienteController extends BaseController
                 'url' => '/clientes/' . $postData['idCliente'] . '/veiculos',
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao salvar veículo!',
-                'url' => '/clientes/' . $postData['idCliente'] . '/veiculos',
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao salvar veículo.');
         }
     }
 }

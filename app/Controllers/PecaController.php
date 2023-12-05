@@ -23,12 +23,11 @@ class PecaController extends BaseController
     {
         if ($this->PecaModel->delete($idPeca)) {
             return view('message', [
-                'message' => 'Usuário deletado com sucesso!'
+                'message' => 'Peça deletada com sucesso!',
+                'url' => '/pecas'
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao deletar usuário!'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao deletar peça.');
         }
     }
 
@@ -48,18 +47,15 @@ class PecaController extends BaseController
     {
         $postData = $this->request->getPost();
         if (empty($postData['nomePeca']) || empty($postData['valorPeca']) || empty($postData['descricao'])) {
-            return view('message', [
-                'message' => 'Por favor, preencha todos os campos obrigatórios.'
-            ]);
+            return redirect()->back()->with('erros', 'Por favor, preencha todos os campos obrigatórios.');
         }
         if ($this->PecaModel->save($postData)) {
             return view('message', [
-                'message' => 'Usuário salvo com sucesso!'
+                'message' => 'Peça salva com sucesso!',
+                'url' => '/pecas'
             ]);
         } else {
-            return view('message', [
-                'message' => 'Erro ao salvar usuário!'
-            ]);
+            return redirect()->back()->with('erros', 'Erro ao salvar peça.');
         }
     }
 }
