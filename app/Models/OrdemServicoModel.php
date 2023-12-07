@@ -59,14 +59,13 @@ class OrdemServicoModel extends Model
 
     public function insertOS(array $data)
     {
-        if (!empty($data['placa'])) {
+        if (!empty($data['idVeiculo'])) {
             $veiculoModel = new \App\Models\VeiculoModel();
 
-            $veiculo = $veiculoModel->where('placa', $data['placa'])->first();
+            $veiculo = $veiculoModel->where('idVeiculo', $data['idVeiculo'])->first();
 
             if (!empty($veiculo)) {
-                $data['idVeiculo'] = $veiculo['idVeiculo'];
-                unset($data['placa']);
+                $data['idCliente'] = $veiculo['idCliente'];
                 $data['status'] = 0;
                 $brasiliaTimezone = new \DateTimeZone('America/Sao_Paulo');
                 $dataHora = new \DateTime('now', $brasiliaTimezone);

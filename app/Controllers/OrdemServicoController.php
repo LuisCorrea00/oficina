@@ -24,7 +24,7 @@ class OrdemServicoController extends BaseController
     public function create()
     {
         return view('formOrdemServico', [
-            'clientes' => (new \App\Models\ClienteModel())->findAll(),
+            'veiculos' => (new \App\Models\VeiculoModel())->findAll(),
             'equipes' => (new \App\Models\EquipeModel())->findAll()
         ]);
     }
@@ -32,7 +32,7 @@ class OrdemServicoController extends BaseController
     public function store()
     {
         $postData = $this->request->getPost();
-        if (empty($postData['idCliente']) || empty($postData['idEquipe']) || empty($postData['placa']) || empty($postData['descricaoProblema'])) {
+        if (empty($postData['idVeiculo']) || empty($postData['idEquipe']) || empty($postData['descricaoProblema'])) {
             return redirect()->back()->with('erros', 'Por favor, preencha todos os campos obrigatórios.');
         }
 
@@ -58,15 +58,6 @@ class OrdemServicoController extends BaseController
         }
     }
 
-    public function edit($idOrdem_servico)
-    {
-        return view('formOrdemServico', [
-            'ordemServico' => $this->OrdemServicoModel->getToDo($idOrdem_servico)[0],
-            'clientes' => (new \App\Models\ClienteModel())->findAll(),
-            'equipes' => (new \App\Models\EquipeModel())->findAll()
-        ]);
-    }
-
     public function concluir($idOrdem_servico)
     {
         return view('concluirOrdemServico', [
@@ -81,34 +72,36 @@ class OrdemServicoController extends BaseController
         $form = $this->request->getPost();
         $validate = $this->validate(
             [
-                'idPeca[]' => 'required',
-                'idServico[]' => 'required',
-                'quantidadePeca[]' => 'required',
-                'quantidadeServico[]' => 'required',
+                'idPeca.*' => 'required',
+                'idServico.*' => 'required',
+                'quantidadePeca.*' => 'required',
+                'quantidadeServico.*' => 'required',
             ],
         );
 
-        if (!$validate) {
+        if ($validate) {
+
+            if (isset($form['idPeca']) && is_array($form['idPeca'])) {
+                foreach ($form['idPeca'] as $index => $peca) {
+                    $this->OrdemServicoModel->insertPeca($form['idOrdem_servico'], $form['quantidadePeca'][$index], $peca);
+                }
+            }
+
+            if (isset($form['idServico']) && is_array($form['idServico'])) {
+                foreach ($form['idServico'] as $index => $servico) {
+                    $this->OrdemServicoModel->insertServico($form['idOrdem_servico'], $form['quantidadeServico'][$index], $servico);
+                }
+            }
+
+            if ($this->OrdemServicoModel->insertDoneOS($form['idOrdem_servico'])) {
+                return view('message', [
+                    'message' => 'Ordem de serviço concluída com sucesso!',
+                    'url' => '/ordemServico'
+                ]);
+            }
+
+        } else {
             return redirect()->back()->with('erros', 'Selecione pelo menos um serviço, uma peça e suas respectivas quantidades.');
-        }
-
-        if (isset($form['idPeca']) && is_array($form['idPeca'])) {
-            foreach ($form['idPeca'] as $index => $peca) {
-                $this->OrdemServicoModel->insertPeca($form['idOrdem_servico'], $form['quantidadePeca'][$index], $peca);
-            }
-        }
-
-        if (isset($form['idServico']) && is_array($form['idServico'])) {
-            foreach ($form['idServico'] as $index => $servico) {
-                $this->OrdemServicoModel->insertServico($form['idOrdem_servico'], $form['quantidadeServico'][$index], $servico);
-            }
-        }
-
-        if ($this->OrdemServicoModel->insertDoneOS($form['idOrdem_servico'])) {
-            return view('message', [
-                'message' => 'Ordem de serviço concluída com sucesso!',
-                'url' => '/ordemServico'
-            ]);
         }
 
         return redirect()->back()->with('erros', 'Erro ao concluir ordem de serviço.');

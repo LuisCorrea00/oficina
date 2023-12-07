@@ -7,7 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4iEAoynu7srO8YmBUPicbfF146t0GpjEW1A&usqp=CAU" type="image/x-icon"> 
+    <link rel="icon"
+        href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4iEAoynu7srO8YmBUPicbfF146t0GpjEW1A&usqp=CAU"
+        type="image/x-icon">
     <title>PitStop</title>
 </head>
 
@@ -28,7 +30,7 @@
                             <?php echo $ordemTodo['nomeCliente'] ?>
                         </h5>
                         <p class="card-text">
-                            Placa:
+                            Placa do veículo:
                             <?php echo $ordemTodo['placa'] ?>
                         </p>
                         <p class="card-text">
@@ -40,8 +42,11 @@
                             <?php echo $ordemTodo['nomeEquipe'] ?>
                         </p>
                         <p class="card-text">
-                            Data e Hora:
-                            <?php echo $ordemTodo['dataHora'] ?>
+                            Data:
+                            <?php
+                                $dataHora = new DateTime($ordemTodo['dataHora'], new DateTimeZone('America/Sao_Paulo'));
+                                echo $dataHora->format('d/m/Y');
+                            ?>
                         </p>
                         <div class="d-flex align-items-center">
                             <a class=" btn btn-success ms-2 w-75"
@@ -77,10 +82,10 @@
                             <?php echo $ordemDone['nomeEquipe'] ?>
                         </p>
                         <p class="card-text">
-                            Data e Hora:
+                            Data:
                             <?php
                             $dataHora = new DateTime($ordemDone['dataHora'], new DateTimeZone('America/Sao_Paulo'));
-                            echo $dataHora->format('d/m/Y H:i:s');
+                            echo $dataHora->format('d/m/Y');
                             ?>
                         </p>
                         <p class="card-text">

@@ -22,26 +22,19 @@
         </span>
         <div class="form-group">
             <div class="">
-                <label for="cliente">Cliente</label>
+                <label for="veiculo">Veículo</label>
                 <a class="ms-2" href="<?php echo base_url('clientes/create/'); ?>">
                     <i class="bi bi-plus-circle" style="font-size: 1rem;color:black;"></i>
                 </a>
             </div>
-            <select name="idCliente" class="form-control">
+            <select name="idVeiculo" class="form-control">
                 <option value="" selected></option>
-                <?php foreach ($clientes as $cliente): ?>
-                    <option value="<?php echo $cliente['idCliente']; ?>" <?php echo (isset($ordemServico['idCliente']) && $ordemServico['idCliente'] == $cliente['idCliente']) ? 'selected' : ''; ?>>
-                        <?php echo $cliente['nomeCliente']; ?>
+                <?php foreach ($veiculos as $veiculo): ?>
+                    <option value="<?php echo $veiculo['idVeiculo']; ?>">
+                        <?php echo $veiculo['modelo']. $veiculo['placa']; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
-        </div>
-
-        <div class="form-group pt-3">
-            <label for="placa">Placa do veículo</label>
-            <input type="text" name="placa"
-                value="<?php echo isset($ordemServico['idVeiculo']) ? $ordemServico['placa'] : '' ?>"
-                class="form-control">
         </div>
 
         <div class="form-group pt-3">
